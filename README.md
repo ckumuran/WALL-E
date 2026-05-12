@@ -1,18 +1,6 @@
-<div align="center">
-
-```text
- .n88:.
-d8888b
-888888
-Y8888P
- `Y8P
-```
-
 # CHESSKIDSDOTCOM ♟
 
 ### A modern bitboard chess engine written in C++17
-
-Built with obsession, coffee, and bitboards.
 
 <br>
 
