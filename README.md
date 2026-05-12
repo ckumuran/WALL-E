@@ -11,8 +11,6 @@
 ![UCI](https://img.shields.io/badge/UCI-green)
 ![AlphaBeta](https://img.shields.io/badge/Alpha--Beta-orange)
 ![Perft](https://img.shields.io/badge/Perft-Verified-brightgreen)
-![Status](https://img.shields.io/badge/status-work%20in%20progress-lightgrey)
-
 </div>
 
 ---
