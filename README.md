@@ -70,7 +70,19 @@ Turns out chess engines and game engines in general are mostly:
 
 ---
 
-# Engine ( Brain ):
+# What it does?
+
+The engine can:
+- understand chess positions
+- generate legal moves
+- search future positions
+- evaluate positions
+- and communicate with external chess GUIs.
+
+---
+
+# How it does it?
+
 - bitboard move representation
 - hybrid mailbox + bitboards
 - packed 32-bit move encoding
@@ -82,13 +94,6 @@ Turns out chess engines and game engines in general are mostly:
 - perft testing/debugging
 - UCI communication
 - modular engine structure
-
-The engine can:
-- understand chess positions
-- generate legal moves
-- search future positions
-- evaluate positions
-- and communicate with external chess GUIs.
 
 ---
 
