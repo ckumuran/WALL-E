@@ -50,30 +50,25 @@
 
 ---
 
-# 🚀 Features
+#  Features
 
 <table>
 <tr>
 
 <td>
 
-- ✅ Bitboard board representation
-- ✅ Hybrid mailbox + bitboards
-- ✅ Packed 32-bit move encoding
-- ✅ Incremental make/unmake
-- ✅ Zobrist hashing
-- ✅ Transposition table framework
-
-</td>
-
-<td>
-
-- ✅ Alpha-beta framework
-- ✅ UCI protocol support
-- ✅ Perft framework
-- ✅ Debug validation tools
-- ✅ Modular engine architecture
-- ✅ Deterministic search structure
+- Bitboard board representation
+- Hybrid mailbox + bitboards
+- Packed 32-bit move encoding
+- Incremental make/unmake
+- Zobrist hashing
+- Transposition table framework
+- Alpha-beta framework
+- UCI protocol support
+- Perft framework
+- Debug validation tools
+- Modular engine architecture
+- Deterministic search structure
 
 </td>
 
@@ -82,7 +77,7 @@
 
 ---
 
-# 🧠 Architecture
+# Architecture
 
 ```text
 src/
@@ -100,64 +95,7 @@ src/
 └── main.cpp
 ```
 
----
-
-# ⚙ Engine Design
-
-Inspired by classical engines such as:
-
-- Stockfish
-- Ethereal
-- Fruit
-- Crafty
-- Berserk
-
-Core principles:
-- cache-friendly layouts
-- deterministic search
-- incremental updates
-- reversible make/unmake
-- bitboard-first move generation
-- minimal heap allocations
-
----
-
-# 🔨 Build
-
-## Release
-
-```bash
-make
-./chesskidsdotcom
-```
-
-## Debug
-
-```bash
-make debug
-```
-
----
-
-# 🖥 UCI
-
-```text
-uci
-isready
-position startpos
-go depth 6
-quit
-```
-
-Compatible with:
-- CuteChess
-- Arena
-- BanksiaGUI
-- ChessBase
-
----
-
-# 📁 Repository Structure
+# Repository Structure
 
 ```text
 .
@@ -192,28 +130,11 @@ Compatible with:
 
 ---
 
-# 📚 Inspirations
-
-- Stockfish
-- Ethereal
-- Berserk
-- Fruit
-- Crafty
-
----
-
-# ⚠ Disclaimer
-
-This is a personal systems-programming project focused on:
-- chess engine architecture
-- search algorithms
-- optimization
-- and low-level performance engineering.
-
----
 
 <div align="center">
 
-### ♞ Play. Learn. Debug. Repeat.
+### ♞ Play. Learn. Give up. Repeat.
+
+### Built by C.Kumaran
 
 </div>
