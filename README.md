@@ -1,6 +1,10 @@
-# CHESSKIDSDOTCOM ♟
+<div align="center">
+
+# ♟ CHESSKIDSDOTCOM
 
 ### A modern bitboard chess engine written in C++17
+
+Built with obsession, coffee, and bitboards.
 
 <br>
 
@@ -19,6 +23,7 @@
 
 <table>
 <tr>
+
 <td align="center">
 
 <img src="./assets/chessmaster.png" width="320">
@@ -50,6 +55,7 @@ Strong engine.
 Good vibes.
 
 </td>
+
 </tr>
 </table>
 
@@ -61,27 +67,29 @@ Good vibes.
 
 <table>
 <tr>
+
 <td>
 
 - ✅ Bitboard board representation
+- ✅ Hybrid mailbox + bitboards
+- ✅ Packed 32-bit move encoding
 - ✅ Incremental make/unmake
 - ✅ Zobrist hashing
-- ✅ Packed 32-bit move encoding
 - ✅ Transposition table framework
-- ✅ UCI support
 
 </td>
 
 <td>
 
 - ✅ Alpha-beta framework
+- ✅ UCI protocol support
 - ✅ Perft framework
 - ✅ Debug validation tools
-- 🚧 Magic bitboards
-- 🚧 Legal move filtering
-- 🚧 Evaluation tuning
+- ✅ Modular engine architecture
+- ✅ Deterministic search structure
 
 </td>
+
 </tr>
 </table>
 
@@ -124,18 +132,6 @@ Core principles:
 - reversible make/unmake
 - bitboard-first move generation
 - minimal heap allocations
-
----
-
-# 📈 Roadmap
-
-| Core | Search | Evaluation | Future |
-|---|---|---|---|
-| ✅ Board representation | 🚧 Iterative deepening | 🚧 PSTs | 🚧 NNUE |
-| ✅ Zobrist hashing | 🚧 Quiescence search | 🚧 Mobility | 🚧 SMP |
-| ✅ Make / unmake | 🚧 Killer heuristics | 🚧 King safety | 🚧 Tablebases |
-| 🚧 Move generation | 🚧 LMR | 🚧 Pawn structure | 🚧 Tuning |
-| 🚧 Legal filtering | 🚧 Null move pruning | 🚧 Tapered eval | 🚧 Optimization |
 
 ---
 
@@ -226,8 +222,6 @@ This is a personal systems-programming project focused on:
 - search algorithms
 - optimization
 - and low-level performance engineering.
-
-The engine is still under active development.
 
 ---
 
