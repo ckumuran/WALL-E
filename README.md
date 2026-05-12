@@ -2,6 +2,8 @@
 
 # ♟ CHESSKIDSDOTCOM
 
+### A modern chess engine written in C++17
+
 <br>
 
 ![C++17](https://img.shields.io/badge/C%2B%2B-17-blue)
@@ -22,7 +24,7 @@
 
 <td align="center">
 
-<img src="./assets/chessmaster.png" width="320">
+<img src="./assets/chessmaster.png" width="280">
 
 ### I am the Chess Master.
 
@@ -30,7 +32,7 @@
 
 <td align="center">
 
-<img src="./assets/longarm.png" width="320">
+<img src="./assets/longarm.png" width="280">
 
 ### Take THAT !!
 
@@ -38,7 +40,7 @@
 
 <td align="center">
 
-<img src="./assets/monitorgod.png" width="320">
+<img src="./assets/monitorgod.png" width="280">
 
 ### “Amateurs.”
 
@@ -53,40 +55,41 @@
 
 # What is this?
 
-`chesskidsdotcom` is a chess engine written in C++17.
+`chesskidsdotcom` is a chess engine written from scratch in C++17.
 
-The name comes from the website I used to play chess on growing up, so I kept it instead of giving it some random name.
+The name comes from the website I used to play chess on growing up, so I kept it instead of giving it some serious engine name.
 
-I discovered game engines are mostly about:
+The project started because I wanted to understand how chess engines actually work internally.
+
+Turns out chess engines and game engines in general are mostly:
 - optimization
-- math
-- debugging
 - recursion
+- debugging
+- move generation
 - performance engineering
 
 ---
 
-# Features
-
-- Bitboard board representation
-- Hybrid mailbox + bitboards
-- Packed 32-bit move encoding
-- Incremental make/unmake
-- Zobrist hashing
-- Alpha-beta search framework
-- Transposition tables
-- UCI support
-- Perft framework
-- Debug validation tools
-- Modular engine structure
-
-In simpler words:
+# Engine ( Brain ):
+- bitboard move representation
+- hybrid mailbox + bitboards
+- packed 32-bit move encoding
+- incremental make/unmake
+- alpha-beta search
+- transposition tables
+- zobrist hashing
+- move generation
+- perft testing/debugging
+- UCI communication
+- modular engine structure
 
 The engine can:
 - understand chess positions
-- generate moves
+- generate legal moves
 - search future positions
 - evaluate positions
+- and communicate with external chess GUIs.
+
 ---
 
 <div align="center">
