@@ -4,15 +4,13 @@
 
 ### A modern bitboard chess engine written in C++17
 
-Built with:
-bitboards • alpha-beta pruning • transposition tables • incremental hashing • UCI
+Bitboards • Alpha-Beta Search • Transposition Tables • UCI • Incremental Hashing
 
 <br>
 
 ![C++17](https://img.shields.io/badge/C%2B%2B-17-blue)
 ![Bitboards](https://img.shields.io/badge/Board-Bitboards-purple)
 ![UCI](https://img.shields.io/badge/Protocol-UCI-green)
-![AlphaBeta](https://img.shields.io/badge/Search-AlphaBeta-orange)
 ![Status](https://img.shields.io/badge/status-WIP-lightgrey)
 
 </div>
@@ -23,23 +21,18 @@ bitboards • alpha-beta pruning • transposition tables • incremental hashin
 
 I grew up playing chess online as a kid.
 
-This project started as curiosity:
-> “How hard could it be to make a chess engine?”
-
-Now it’s become a deep dive into:
+This project started as curiosity and slowly turned into a deep dive into:
+- chess engine architecture
 - move generation
-- search optimization
 - hashing
-- engine architecture
-- low-level performance engineering
-- and classical chess programming techniques.
+- search optimization
+- low-level systems programming
+- and classical engine design.
 
 ---
 
 <div align="center">
-
-<img src="assets/chessmaster.png" width="750"/>
-
+  <img src="./assets/chessmaster.png" width="750">
 </div>
 
 ---
@@ -51,7 +44,7 @@ Now it’s become a deep dive into:
 - Packed 32-bit move encoding
 - Incremental make/unmake
 - Zobrist hashing
-- Alpha-beta search framework
+- Alpha-beta framework
 - Transposition table framework
 - UCI protocol support
 - Perft framework
@@ -80,16 +73,14 @@ src/
 ---
 
 <div align="center">
-
-<img src="assets/longarm.png" width="750"/>
-
+  <img src="./assets/longarm.png" width="750">
 </div>
 
 ---
 
 # ⚙ Engine Design
 
-The engine follows a classical architecture inspired by engines such as:
+The engine follows a classical architecture inspired by:
 
 - Stockfish
 - Ethereal
@@ -97,13 +88,12 @@ The engine follows a classical architecture inspired by engines such as:
 - Fruit
 - Berserk
 
-Core design principles:
-
+Core principles:
 - cache-friendly layouts
 - deterministic search
 - minimal heap allocations
 - incremental updates
-- fast reversible make/unmake
+- reversible make/unmake
 - bitboard-first move generation
 
 ---
@@ -121,38 +111,37 @@ Core design principles:
 ## Search
 - Iterative deepening
 - Quiescence search
-- Move ordering heuristics
 - Killer/history heuristics
 - Null move pruning
 - Late move reductions
 - Aspiration windows
 
 ## Evaluation
-- Tapered evaluation
 - Piece-square tables
-- Pawn structure analysis
+- Tapered evaluation
 - Mobility scoring
+- Pawn structure analysis
 - King safety
 - Passed pawns
 
 ## Future
 - NNUE experimentation
 - Endgame tablebases
-- Search tuning
 - SMP threading
+- Search tuning
 
 ---
 
 # 🔨 Build
 
-## Release Build
+## Release
 
 ```bash
 make
 ./chesskidsdotcom
 ```
 
-## Debug Build
+## Debug
 
 ```bash
 make debug
@@ -160,7 +149,7 @@ make debug
 
 ---
 
-# 🖥 UCI Commands
+# 🖥 UCI
 
 ```text
 uci
@@ -179,9 +168,7 @@ Compatible with:
 ---
 
 <div align="center">
-
-<img src="assets/finalform.png" width="750"/>
-
+  <img src="./assets/monitorgod.png" width="750">
 </div>
 
 ---
@@ -204,6 +191,7 @@ are still in progress.
 
 ```text
 .
+├── assets/
 ├── attacks.cpp
 ├── attacks.h
 ├── bitboard.h
@@ -253,14 +241,6 @@ This is a personal systems-programming project focused on:
 - and low-level performance engineering.
 
 The engine is still a work in progress.
-
----
-
-<div align="center">
-
-<img src="assets/monitorgod.png" width="750"/>
-
-</div>
 
 ---
 
