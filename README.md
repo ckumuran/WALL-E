@@ -55,27 +55,18 @@
 
 `chesskidsdotcom` is a chess engine written from scratch in C++17.
 
-The name comes from the website I used to play chess on growing up, so I kept it instead of giving it some serious engine name.
-
-The project started because I wanted to understand how chess engines actually work internally.
-
-Turns out chess engines and game engines in general are mostly:
-- optimization
-- recursion
-- debugging
-- move generation
-- performance engineering
+The name comes from the website I used to play chess on growing up.
 
 ---
 
-# What it does?
+# Features
 
 The engine can:
 - understand chess positions
 - generate legal moves
-- search future positions
+- search for future positions
 - evaluate positions
-- communicates with external chess GUIs.
+- communicate with external chess GUIs.
 
 ---
 
