@@ -1,8 +1,5 @@
 <div align="center">
-# ♟ CHESSKIDSDOTCOM
-### A modern chess engine written in C++17
-<br>
-
+#♟ CHESSKIDSDOTCOM
 ![Amateurs](assets/chessmaster.png)
 
 Yeah. Let's talk about what a real chess engine looks like.
