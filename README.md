@@ -1,4 +1,7 @@
-# chesskidsdotcom
+<div align="center">
+# ♟ CHESSKIDSDOTCOM
+### A modern chess engine written in C++17
+<br>
 
 ![Amateurs](assets/chessmaster.png)
 
