@@ -12,30 +12,27 @@
 
 ## What Is This
 
-A chess engine. Written from scratch. In C++17.
+A chess engine. Written from scratch in C++17.
 
-Not "inspired by Stockfish." Not "following along with a YouTube series." Not "I copy-pasted the bitboard section and figured out the rest." From scratch — like, the pieces don't even know they're pieces until I told them what they are.
+I know, I know. Another chess engine. Bear with me.
 
-Will it beat Magnus Carlsen? No. Magnus doesn't lose to software he hasn't heard of. Will it beat you? Honestly, probably. Is that the point? Not really — the point was to understand how these things actually work and then build one without it looking like a crime scene. Mission accomplished.
+This one's got bitboards, move generation, alpha-beta search, transposition tables, UCI protocol support — the whole deal. It's not gonna beat anyone good. But it'll beat you, probably, and that felt like enough.
 
----
-
-## Why It's Interesting (Stay With Me)
-
-Most chess engines fall into two categories:
-
-1. Toy projects that technically move pieces but fold under any real position like a pawn on the seventh rank with no backup
-2. Stockfish — which is incredible but reading that codebase is like trying to understand a language that hasn't been invented yet
-
-This one lives in the middle. Real engineering, readable code, decisions you can actually follow. Think of it as the chess engine that shows its work.
+The actual goal was just to understand how these things work at every level and build something that didn't embarrass me. I think we got there.
 
 ---
 
-## The Interesting Bits
+## Why It's Interesting
 
-Let's start with the foundation, because this is where most projects either nail it or produce something that technically compiles but spiritually doesn't.
+Two types of chess engines out there. Ones that are basically a college homework assignment with piece-moving logic and vibes, and then Stockfish, which is a 500,000-line monument to human obsession that takes a team of grandmasters and PhDs to understand.
 
-**The type system actually means something** — [`types.h`](types.h):
+This is neither. It's a real engine — real data structures, real search, real performance thinking — that a normal person can actually read. That's harder to pull off than it sounds.
+
+---
+
+## The Parts Worth Looking At
+
+**The type system** — [`types.h`](types.h):
 
 ```cpp
 enum Color { WHITE, BLACK, BOTH, NO_COLOR };
@@ -51,11 +48,9 @@ enum Square {
 };
 ```
 
-That `~color` trick? That's flipping from White to Black — or Black to White — at compile time, zero cost, one character. It's the kind of thing that looks small until you're writing search code at 2am and you realize every other engine has a function called `getOpponent()` that does this with an if-statement. Not here.
+`~color` flips White to Black at compile time with one character. No function, no branching, no nothing. The squares are numbered A1 through H8 in order so the math always makes sense. This is the stuff that makes the rest of the codebase not a nightmare to work in. Boring to explain, genuinely matters.
 
-The squares are laid out A1 through H8 in order so the index math just... works. No magic offsets. No "wait why is this 56." Square 0 through square 63. Chess grandmasters call this "board vision." We call it an enum.
-
-**The transposition table entry has a diet** — [`tt.h`](tt.h):
+**The transposition table entry** — [`tt.h`](tt.h):
 
 ```cpp
 struct TTEntry {
@@ -68,21 +63,15 @@ struct TTEntry {
 };
 ```
 
-Quick detour for the non-programmers: a transposition table is the engine's memory. When it sees a position it already evaluated — maybe through a different sequence of moves — it looks it up instead of redoing the work. Like recognizing you've been in this exact situation before and knowing it ends badly. Chess players call this "pattern recognition." We call it a hash table.
-
-Now, `flag` and `age` are `uint8_t` instead of `int`. That's 1 byte each instead of 4. Doesn't sound dramatic until you have millions of these entries and suddenly your cache is doing backflips trying to keep up. Every byte you save here is real performance. No field in this struct is there by accident.
+A transposition table is the engine's memory — when it hits a position it's already seen, it looks up the answer instead of re-doing the work. You end up with millions of these entries sitting in memory, so `flag` and `age` are `uint8_t` (1 byte) instead of `int` (4 bytes). Doesn't sound like much. Across millions of entries your cache either loves you or it doesn't. It loves this.
 
 ---
 
-## How The Whole Thing Fits Together
+## How It Works
 
-### The Board (aka "Where Are The Pieces")
+### The Board
 
-The board uses a hybrid setup: **bitboards** plus a **mailbox**.
-
-Bitboards are just 64-bit integers where each bit represents a square. Want to know all the squares a bishop attacks from e4? It's a lookup and a couple of bitwise operations — no loops, no checking each square one by one. Just math. Fast math. The kind of math that doesn't care how complicated your position looks.
-
-The mailbox is a plain array: ask it what's on square e4, it tells you immediately. The two approaches cover each other's weaknesses. It's the rook-and-bishop of data structures — individually fine, together unstoppable.
+Hybrid bitboard and mailbox setup. A bitboard is a 64-bit integer where each bit is a square on the board — so "all squares a knight on f3 attacks" is just a precomputed number you look up. Fast. The mailbox is an array that tells you what piece is on any given square instantly. They cover each other's weaknesses. Together they're good.
 
 ```cpp
 U64 knightAttacks = KNIGHT_ATTACKS[sq];
@@ -90,11 +79,11 @@ U64 blockers = occupied & BISHOP_MASKS[sq];
 U64 bishopAttacks = BISHOP_TABLE[sq][pext(blockers, BISHOP_MASKS[sq])];
 ```
 
-### Move Generation (The Part That Has To Be Perfect)
+### Move Generation
 
-[`movegen.cpp`](movegen.cpp) generates every move a piece can legally make — castling, en passant, promotions, all of it. This is the part where most from-scratch engines silently get things wrong and then wonder why their engine blunders a queen every few games.
+[`movegen.cpp`](movegen.cpp) generates all the legal moves from any position — castling, en passant, promotions, everything. Getting this right is the part that makes or breaks an engine. A lot of engines have subtle bugs here that just silently produce wrong play forever.
 
-This one is **perft-verified**. Perft is a test that counts the exact number of legal positions reachable after N moves from a given starting position. There are known correct counts for these — published, verified, canonical. If your number matches, your move generation is correct. Not "probably correct." Correct. The engine passed. Moving on.
+This one is perft-verified. Perft counts the exact number of reachable positions after N moves. There are published correct answers. The numbers match. It's correct.
 
 ```cpp
 Move move = encodeMove(from, to, piece, flag);
@@ -102,27 +91,27 @@ Square from = moveFrom(move);
 Square to   = moveTo(move);
 ```
 
-Each move is a single 32-bit integer. Source square, destination, piece type, special flags — packed in. No objects, no heap allocation, just a number you can copy around for free. A pawn knows its promotion destination the same way a grandmaster knows the endgame: it's all already in there.
+Every move is a single 32-bit integer with everything packed in — where it's moving from, where it's going, what piece, any special flags. No allocations, no objects, just a number. Millions of these get generated and thrown away during search. Making them cheap to create matters.
 
-### Make/Unmake (The Tedious Part That Matters)
+### Make/Unmake
 
-When the engine searches, it tries millions of moves and undoes them. Most engines take the simple approach: copy the entire board before each move, search, throw the copy away. Works great. Also wastes a lot of time copying things.
+The engine searches by trying moves and undoing them, millions of times per second. Most engines just copy the board before each move and trash the copy when done. Simpler to write, wastes time copying.
 
-This engine uses **incremental make/unmake** — it tracks exactly what changed (piece moved, capture removed, castling rights updated, en passant square set) and reverses those exact changes. More code to write. Zero copying. At depth 8+ with millions of nodes per second, this stops being a micro-optimization and starts being the difference between fast and "why is this taking so long."
+This uses incremental make/unmake — tracks exactly what changed and reverses it. More code up front. Pays off at depth.
 
-### Search (The Part That Actually Plays Chess)
+### Search
 
-[`search.cpp`](search.cpp) uses **alpha-beta search** — an algorithm that explores the game tree while cutting off branches that can't possibly improve the current best result. It's how you go from "evaluate every possible position" (impossible, there are more chess games than atoms in the universe, yes really) to "evaluate the positions that actually matter" (hard, but here we are).
+Alpha-beta search ([`search.cpp`](search.cpp)) — explores the game tree and cuts branches that can't beat what we already found. The transposition table means positions we've already evaluated get looked up, not re-searched. Zobrist hashing ([`zobrist.cpp`](zobrist.cpp)) gives every position a unique 64-bit fingerprint updated in real time so lookups are fast.
 
-The transposition table plugs in here: same position, different move order — looked up, not re-searched. **Zobrist hashing** ([`zobrist.cpp`](zobrist.cpp)) gives each board position a unique 64-bit fingerprint, updated incrementally as moves happen so you're never recomputing from scratch.
+### UCI
 
-### UCI (The Part That Connects To The World)
-
-[`uci.cpp`](uci.cpp) implements the Universal Chess Interface — the standard protocol for chess engines to talk to GUIs. Plug this into any UCI-compatible interface and it just works: receives positions, outputs moves, handles time controls. Unglamorous. Essential. Chess engines without UCI are like rooks with no open files — technically present, not doing much.
+[`uci.cpp`](uci.cpp) is the Universal Chess Interface — the standard that lets engines talk to GUIs. Plug it in, it works. Not the fun part of the project. Had to be done.
 
 ---
 
 ## Demo
+
+This is it running — board display, UCI handshake, depth 5 search on the King's Knight opening, and perft 4 counting 197,281 nodes in 1.2 seconds.
 
 <div align="center">
 
@@ -150,17 +139,15 @@ perft.cpp/h      — move generation testing
 main.cpp         — entry point
 ```
 
-Flat structure. It's a small, clear project and nested directories would just be bureaucracy at this scale.
+Flat structure. Small project. Doesn't need folders.
 
 ---
 
 ## Why
 
-I like knowing how things actually work. Not "it uses alpha-beta search" — I mean actually knowing: what's in the struct, why the flag is a `uint8_t`, what happens when you unmake a castling move that involved an en passant capture. That level.
+I just like building things and seeing if they work. Chess engines are a good target — hard enough to be worth doing, concrete enough that you know when you're done. Either it plays chess or it doesn't.
 
-Chess engines are a great target for this because they're hard enough to be interesting and bounded enough to finish. Every component has a job. The jobs connect. The whole thing either plays chess or it doesn't — there's no partial credit.
-
-It does. It plays chess. That's what I'm saying.
+It does.
 
 ---
 
