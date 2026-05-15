@@ -4,8 +4,6 @@
 
 ![Amateurs](assets/chessmaster.png)
 
-*Yeah. Let's talk about what a real chess engine looks like.*
-
 </div>
 
 ---
